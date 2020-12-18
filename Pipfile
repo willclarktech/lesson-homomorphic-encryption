@@ -6,6 +6,7 @@ name = "pypi"
 [scripts]
 test = "pytest"
 format = "black ."
+lint = "pylint paillier.py test_paillier.py"
 typecheck = "mypy ."
 
 [packages]
