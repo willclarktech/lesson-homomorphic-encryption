@@ -12,7 +12,7 @@ DEFAULT_BIT_LENGTH = 3072
 
 def generate_primes(n: int) -> List[int]:
     # https://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n-in-python/3035188#3035188
-    """ Input n>=6, Returns a array of primes, 2 <= p < n """
+    """ Input n>=6, Returns an array of primes, 2 <= p < n """
     sieve = np.ones(n // 3 + (n % 6 == 2), dtype=np.bool)
     for i in range(1, int(n ** 0.5) // 3 + 1):
         if sieve[i]:
