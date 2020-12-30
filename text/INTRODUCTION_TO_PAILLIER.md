@@ -123,13 +123,13 @@ There are a couple of special cases which need to be handled carefully. The firs
 
 The other case is multiplying by $$1$$. Because any number $$x$$ to the power of $$1$$ is $$x$$, if we multiply a ciphertext by a plaintext $$1$$ using the normal method, the output will be the same as the input. This is less severe than the case with $$0$$ where the encrypted value could be inferred, but still a problem because anybody who is watching the communication between whoever holds the private key and whoever is multiplying numbers will be able to work out that the number was multiplied by $$1$$. The solution here is another workaround: instead of multiplying by $$1$$, we perform an equivalent operation: adding $$0$$! We just freshly encrypt a $$0$$ and perform the usual addition procedure to obtain a secure ciphertext.
 
-!!! WORKED EXAMPLE
-
 ### QUIZ
 
 1.  Which cases have to be handled with care when implementing the Paillier cryptosystem?
 
     -   Adding 0
     -   Adding 1
+    -   Adding a number to itself
     -   Multiplying by 0 (correct)
     -   Multiplying by 1 (correct)
+    -   Multiplying by $$\lambda$$
