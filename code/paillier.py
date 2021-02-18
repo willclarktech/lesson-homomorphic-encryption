@@ -13,13 +13,14 @@ DEFAULT_BIT_LENGTH = 3072
 def generate_primes(n: int) -> List[int]:
     # https://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n-in-python/3035188#3035188
     """ Input n>=6, Returns an array of primes, 2 <= p < n """
-    sieve = np.ones(n // 3 + (n % 6 == 2), dtype=np.bool)
+    sieve = np.ones(n // 3 + (n % 6 == 2), dtype=bool)
     for i in range(1, int(n ** 0.5) // 3 + 1):
         if sieve[i]:
             k = 3 * i + 1 | 1
             sieve[k * k // 3 :: 2 * k] = False
             sieve[k * (k - 2 * (i & 1) + 4) // 3 :: 2 * k] = False
-    return np.r_[2, 3, ((3 * np.nonzero(sieve)[0][1:] + 1) | 1)]
+    primes = np.r_[2, 3, ((3 * np.nonzero(sieve)[0][1:] + 1) | 1)]
+    return [int(n) for n in primes]
 
 
 def L(n: int, x: int) -> int:
@@ -31,17 +32,14 @@ def create_key_pair(
 ) -> Tuple[PrivateKey, PublicKey]:
     primes = generate_primes(2 ** (bit_length // 2))
 
-    p = int(secrets.choice(primes))
-    q = int(secrets.choice(primes))
+    p = secrets.choice(primes)
+    q = secrets.choice(primes)
     n = p * q
 
-    while p == q or n.bit_length() != bit_length:
-        p = int(secrets.choice(primes))
-        q = int(secrets.choice(primes))
+    while p == q or n.bit_length() != bit_length or np.gcd(n, (p - 1) * (q - 1)) != 1:
+        p = secrets.choice(primes)
+        q = secrets.choice(primes)
         n = p * q
-
-    if np.gcd(n, (p - 1) * (q - 1)) != 1:
-        return create_key_pair(bit_length)
 
     n_squared = n ** 2
     g = secrets.randbelow(n_squared - 1) + 1
@@ -52,7 +50,7 @@ def create_key_pair(
     try:
         mu = pow(L(n, pow(g, lam, n_squared)), -1, n)
     except ValueError:
-        return create_key_pair()
+        return create_key_pair(bit_length)
 
     private_key = PrivateKey(lam, mu)
     return private_key, public_key

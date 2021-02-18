@@ -4,7 +4,10 @@ from paillier import add, encrypt, multiply, PublicKey
 
 
 def encrypted_celsius_to_fahrenheit(public_key: PublicKey, ciphertext: int) -> int:
-    # °F = °C * 1.8 + 32
+    """
+    Returns an encrypted integer representing 1/10ths of a degree Fahrenheit
+    °F = °C * 1.8 + 32
+    """
     # First multiply the ciphertext by 18.
     multiplied_by_18 = multiply(public_key, ciphertext, 18)
     # Now encrypt 320.
@@ -15,15 +18,18 @@ def encrypted_celsius_to_fahrenheit(public_key: PublicKey, ciphertext: int) -> i
 
 def encrypted_price_calculator(
     public_key: PublicKey,
-    # a list of (encrypted price, quantity) tuples
+    # a list of (encrypted price, plaintext quantity) tuples
     encrypted_cart: List[Tuple[int, int]],
 ) -> int:
-    item_prices = [
+    """
+    Returns the encrypted sum of multiplying each encrypted price by an unencrypted quantity
+    """
+    item_subtotals = [
         multiply(public_key, price, quantity) for price, quantity in encrypted_cart
     ]
 
-    total_price = encrypt(public_key, 0)
-    for item_price in item_prices:
-        total_price = add(public_key, total_price, item_price)
+    total = encrypt(public_key, 0)
+    for item_subtotal in item_subtotals:
+        total = add(public_key, total, item_subtotal)
 
-    return total_price
+    return total
