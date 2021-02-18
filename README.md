@@ -32,7 +32,7 @@ If you aren’t using poetry, you can install the dependencies via the `requirem
 pip install -r requirements.txt
 ```
 
-Once you’ve installed the dependencies, you should be able to run the tests and see that they pass:
+Once you’ve installed the dependencies, you should be able to run the tests and see that they fail:
 
 ```sh
 pytest
@@ -40,9 +40,9 @@ pytest
 
 ## Coding exercises
 
-Your first task is to fill out the functionality for the interfaces defined in `./code/paillier.stub.py`. You can run tests against your own code by renaming this file to `./code/paillier.py` and running `pytest code/test_paillier.py`, but you might want to keep a copy of the file which currently exists at that location because it contains a valid solution.
+Your first task is to fill out the functionality for the interfaces defined in `./code/paillier.py`. You can run tests against your code by running `pytest code/test_paillier.py`.
 
-Once you have implemented the Paillier homomorphic encryption system, your second task is to implement a couple of linear models which make use of it. Fill out the functionality for the interfaces defined in `./code/homomorphic_encryption_model.stub.py`. Again, you can run tests against your own code by renaming this file to `./code/homomorphic_encryption_model.py` (overwriting the solution file) and running `pytest code/test_homomorphic_encryption_model.py`.
+Once you have implemented the Paillier homomorphic encryption system, your second task is to implement a couple of linear models which make use of it. Fill out the functionality for the interfaces defined in `./code/homomorphic_encryption_model.py`. Again, you can run tests against your code by running `pytest code/test_homomorphic_encryption_model.py`.
 
 Be aware that the tests are just simple checks that you’re heading in the right direction, they’re not supposed to be particularly robust. Write more tests if you find it helpful!
 
